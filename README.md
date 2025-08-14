@@ -27,6 +27,8 @@ This project uses **SQLite** for database management, **SQL queries** for analys
 ## 🗂️ Project Structure
 
 📁 local-food-wastage-management
+
+```
 │── app.py # Main Streamlit application entry point
 │── requirements.txt # Python dependencies
 │── README.md # Project documentation
@@ -44,6 +46,7 @@ This project uses **SQLite** for database management, **SQL queries** for analys
 │
 ├── 📁 notebooks # Jupyter notebooks
 │ │── main.ipynb # Main analysis / prototyping notebook
+```
 
 ---
 
