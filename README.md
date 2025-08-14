@@ -27,14 +27,23 @@ This project uses **SQLite** for database management, **SQL queries** for analys
 ## 🗂️ Project Structure
 
 📁 local-food-wastage-management
-│── app.py # Streamlit application
-│── food_waste.db # SQLite database file
-│── providers_data.csv # Providers dataset
-│── receivers_data.csv # Receivers dataset
-│── food_listings_data.csv # Food listings dataset
-│── claims_data.csv # Claims dataset
-│── schema.sql # Database schema
-│── queries.sql # Analytical SQL queries
+│── app.py # Main Streamlit application entry point
+│── requirements.txt # Python dependencies
+│── README.md # Project documentation
+│
+├── 📁 data # Data storage
+│ │── food_listing_data.csv
+│ │── claims_data.csv
+│ │── providers_data.csv
+│ │── receivers_data.csv
+│
+├── 📁 database # Database & schema
+│ │── food_waste.db # SQLite database file
+│ │── schema.sql # Database schema
+│ │── queries.sql # Analytical SQL queries
+│
+├── 📁 notebooks # Jupyter notebooks
+│ │── main.ipynb # Main analysis / prototyping notebook
 
 ---
 
