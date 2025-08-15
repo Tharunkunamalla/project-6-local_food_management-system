@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -57,13 +56,42 @@ elif choice == "Receivers":
 
 elif choice == "Food Listings":
     st.subheader("Browse Food Listings")
-    city_filter = st.selectbox("City", ["All"] + run_query("SELECT DISTINCT Location FROM food_listings")["Location"].dropna().tolist())
-    query = "SELECT * FROM food_listings"
+
+    # Filter options from database
+    locations = ["All"] + run_query("SELECT DISTINCT Location FROM food_listings")["Location"].dropna().tolist()
+    providers_df = run_query("SELECT Provider_ID, Name FROM providers")
+    provider_options = ["All"] + providers_df["Name"].dropna().tolist()
+    food_types = ["All"] + run_query("SELECT DISTINCT Food_Type FROM food_listings")["Food_Type"].dropna().tolist()
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        city_filter = st.selectbox("Filter by Location", locations)
+    with col2:
+        provider_filter = st.selectbox("Filter by Provider", provider_options)
+    with col3:
+        food_type_filter = st.selectbox("Filter by Food Type", food_types)
+
+    # Build query with joins
+    query = """
+        SELECT fl.Food_ID, fl.Food_Name, fl.Quantity, fl.Expiry_Date,
+               p.Name AS Provider_Name, fl.Provider_Type, fl.Location, fl.Food_Type, fl.Meal_Type
+        FROM food_listings fl
+        JOIN providers p ON fl.Provider_ID = p.Provider_ID
+        WHERE 1=1
+    """
+    params = {}
     if city_filter != "All":
-        query += " WHERE Location = :city"
-        df = run_query(query, {"city": city_filter})
-    else:
-        df = run_query(query)
+        query += " AND fl.Location = :city"
+        params["city"] = city_filter
+    if provider_filter != "All":
+        provider_id = providers_df.loc[providers_df["Name"] == provider_filter, "Provider_ID"].iloc[0]
+        query += " AND fl.Provider_ID = :provider_id"
+        params["provider_id"] = provider_id
+    if food_type_filter != "All":
+        query += " AND fl.Food_Type = :foodtype"
+        params["foodtype"] = food_type_filter
+
+    df = run_query(query, params)
     st.dataframe(df)
 
 elif choice == "Claims":
