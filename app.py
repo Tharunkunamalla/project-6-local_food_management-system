@@ -4,7 +4,7 @@ import pandas as pd
 import sqlite3
 from datetime import datetime
 
-DB_PATH = 'sql/food_waste.db'
+DB_PATH = 'food_waste.db'
 
 def get_conn():
     conn = sqlite3.connect(DB_PATH)
